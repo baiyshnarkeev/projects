@@ -1,0 +1,19 @@
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+train_data = pd.read_csv("/kaggle/input/titanic/train.csv")
+train_data.head()
+
+test_data = pd.read_csv("/kaggle/input/titanic/test.csv")
+test_data.head()
+
+y = train_data["Survived"]
+features = ["Pclass", "Sex", "SibSp", "Parch"]
+X = pd.get_dummies(train_data[features])
+X_test = pd.get_dummies(test_data[features])
+
+model = LogisticRegression(max_iter=200, random_state=42)
+model.fit(X, y)
+
+train_predictions = model.predict(X)
+train_accuracy = accuracy_score(y, train_predictions)
+print(f"training accuracy:{train_accuracy:.4f}")
